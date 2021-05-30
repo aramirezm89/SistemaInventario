@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using SistemaInventario;
+using SistemaInventario.Modelos;
 
 namespace SistemaInventario.AccesoDatos.Data
 {
@@ -12,5 +14,7 @@ namespace SistemaInventario.AccesoDatos.Data
             : base(options)
         {
         }
+
+        public DbSet<clsBodega> Bodegas { get; set; }
     }
 }
