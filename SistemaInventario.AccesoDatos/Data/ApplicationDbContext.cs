@@ -15,6 +15,6 @@ namespace SistemaInventario.AccesoDatos.Data
         {
         }
 
-        public DbSet<clsBodega> Bodegas { get; set; }
+        public DbSet<Bodega> Bodegas { get; set; }
     }
 }

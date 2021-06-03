@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SistemaInventario.Modelos
 {
-   public class clsBodega
+   public class Bodega
     {
        [Key]
        public int Id { get; set; }
