@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SistemaInventario.Utilidades
+﻿namespace SistemaInventario.Utilidades
 {
-   public static class clsDefinicionesEstaticas
+    public static class clsDefinicionesEstaticas
     {
     }
 }

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
 
 namespace SistemaInventario.AccesoDatos.Repositorio.IRepositorio
 {
@@ -15,10 +14,10 @@ namespace SistemaInventario.AccesoDatos.Repositorio.IRepositorio
             Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null,
             string incluirPropiedades = null
             );
-         T ObtenerPrimerElemento(
-            Expression<Func<T, bool>> filter = null,
-            string incluirPropiedades = null
-            );
+        T ObtenerPrimerElemento(
+           Expression<Func<T, bool>> filter = null,
+           string incluirPropiedades = null
+           );
         void Agregar(T entidad);
         void Eliminar(int id);
         void Eliminar(T entidad);

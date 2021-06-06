@@ -1,5 +1,3 @@
-using System;
-
 namespace SistemaInventario.Modelos.ViewModels
 {
     public class ErrorViewModel

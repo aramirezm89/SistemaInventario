@@ -1,11 +1,10 @@
-﻿using SistemaInventario.AccesoDatos.Repositorio.IRepositorio;
+﻿using Microsoft.EntityFrameworkCore;
+using SistemaInventario.AccesoDatos.Data;
+using SistemaInventario.AccesoDatos.Repositorio.IRepositorio;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using SistemaInventario.AccesoDatos.Data;
-using Microsoft.EntityFrameworkCore;
 
 namespace SistemaInventario.AccesoDatos.Repositorio
 {
@@ -68,13 +67,13 @@ namespace SistemaInventario.AccesoDatos.Repositorio
         public IEnumerable<T> ObtenerTodos(Expression<Func<T, bool>> filter = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, string incluirPropiedades = null)
         {
             IQueryable<T> query = dbSet;
-           
-            if(filter != null)
+
+            if (filter != null)
             {
                 query = query.Where(filter); // select * from where ....
             }
 
-            if(incluirPropiedades != null)
+            if (incluirPropiedades != null)
             {
                 foreach (var propiedad in incluirPropiedades.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
                 {
@@ -82,7 +81,7 @@ namespace SistemaInventario.AccesoDatos.Repositorio
                 }
             }
 
-            if(orderBy != null)
+            if (orderBy != null)
             {
                 return orderBy(query).ToList();
             }
@@ -90,6 +89,6 @@ namespace SistemaInventario.AccesoDatos.Repositorio
             return query.ToList();
         }
 
-       
+
     }
 }

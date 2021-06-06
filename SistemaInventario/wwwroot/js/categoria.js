@@ -2,7 +2,7 @@
 
 $(document).ready(function () {
     var l = $.ajax( {
-        "url": "/Admin/Bodegas/ObternerTodos"
+        "url": "/Admin/Categorias/ObternerTodos"
     })
     console.log(l); //probando metodo ObtenerTodos
 
@@ -17,14 +17,13 @@ function loadDataTable() {
    
     datatable = $('#tblDatos').DataTable({
         "ajax": {
-            "url": "/Admin/Bodegas/ObternerTodos"
+            "url": "/Admin/Categorias/ObternerTodos"
         },
         "language": {
             "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"
         },
         "columns": [
             { "data": "nombre", "width": "20%" },
-            { "data": "descripcion", "width": "40%" },
             {
                 "data": "estado",
                 "render": function (data) {
@@ -41,10 +40,10 @@ function loadDataTable() {
                 "render": function (data) {
                     return `
                         <div class="text-center">
-                            <a href="/Admin/Bodegas/Upsert/${data}" class="btn btn-success text-white" style="cursor:pointer">
+                            <a href="/Admin/Categorias/Upsert/${data}" class="btn btn-success text-white" style="cursor:pointer">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <a onclick= Delete("/Admin/Bodegas/Delete/${data}") class="btn btn-danger text-white" style="cursor:pointer">
+                            <a onclick= Delete("/Admin/Categorias/Delete/${data}") class="btn btn-danger text-white" style="cursor:pointer">
                                 <i class="fas fa-trash"></i>
                             </a>
                         </div>
@@ -57,7 +56,7 @@ function loadDataTable() {
 
 function Delete(url){
     swal({
-        title: "¿Esta seguro que desea Eliminar la Bodega?",
+        title: "¿Esta seguro que desea Eliminar la Categoria?",
         text: "Este registro no se podra recuperar.",
         icon: "warning",
         buttons: true,

@@ -1,7 +1,73 @@
-﻿
+﻿@model SistemaInventario.Modelos.Bodega
 @{
     ViewData["Title"] = "Upsert";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var titulo = "Crear Bodega";
 }
 
+<form method="post">
+    <div class="container">
+        <div class="row p-3 border-0">
+            <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+        </div>
+    </div>
 
+     @if(Model.Id != 0)
+       {
+         //actualizar
+         titulo = "Actualizar Bodega";
+       }
+
+
+      <div class="col-12 border-bottom">
+          <h2 class="text-primary">@titulo</h2>
+      </div>
+      <div class="col-8 pt-4">
+          <div class="mb-3 row">
+              <div class="col-4">
+                  <label class="form-label" asp-for="Nombre"></label>
+              </div>
+              <div class="col-8">
+                  <input asp-for="Nombre" class="form-control" />
+                  <span asp-validation-for="Nombre" class="text-danger"></span>
+              </div>
+          </div>
+          <div class="mb-3 row">
+              <div class="col-4">
+                  <label class="form-label" asp-for="Descripcion"></label>
+              </div>
+              <div class="col-8">
+                  <input asp-for="Descripcion" class="form-control" />
+                  <span asp-validation-for="Descripcion" class="text-danger"></span>
+              </div>
+          </div>
+          <div class=" mb-3 row">
+              <div class="col-4">
+                  <label asp-for="Estado"></label>
+              </div>
+              <div class="col-4 ">
+                  <select class="form-control" asp-for="Estado">
+                      <option value=true>Activo</option>
+                      <option value=false>Inactivo</option>
+                  </select>
+              </div>
+          </div>
+          <div class=" mb-3 row">
+              <div class="col-8 offset-4">
+                  @if (Model.Id != 0)
+                  {
+                      <partial name="_BotonesActualizarRegresar" model="Model.Id" />
+                  }
+                  else
+                  {
+                      <partial name="_BotonesCrearRegresar" />
+                  }
+              </div>
+          </div>
+      </div>
+</form>
+
+@section Scripts{ 
+    <partial name="_ValidationScriptsPartial"/>
+}
