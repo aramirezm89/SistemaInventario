@@ -21,7 +21,7 @@ namespace SistemaInventario.Areas.Admin.Controllers
         public IActionResult Upsert(int? id)
         {
             Bodega bodega = new Bodega();
-            
+
             if (id == null)
             {
                 //id null vista crear  nuevo usuario

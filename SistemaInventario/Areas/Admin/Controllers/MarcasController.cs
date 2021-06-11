@@ -5,11 +5,11 @@ using SistemaInventario.Modelos;
 namespace SistemaInventario.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    public class CategoriasController : Controller
+    public class MarcasController : Controller
     {
         private readonly IUnidadTrabajo _unidadTrabajo;
 
-        public CategoriasController(IUnidadTrabajo unidadTrabajo)
+        public MarcasController(IUnidadTrabajo unidadTrabajo)
         {
             _unidadTrabajo = unidadTrabajo;
         }
@@ -20,64 +20,64 @@ namespace SistemaInventario.Areas.Admin.Controllers
 
         public IActionResult Upsert(int? id)
         {
-            Categoria categoria = new Categoria();
+            Marca marca = new Marca();
 
             if (id == null)
             {
-                return View(categoria);
+                return View(marca);
             }
 
-            categoria = _unidadTrabajo.Categoria.Obtener(id.GetValueOrDefault());
-            if (categoria == null)
+            marca = _unidadTrabajo.Marca.Obtener(id.GetValueOrDefault());
+            if (marca == null)
             {
                 return NotFound();
             }
 
-            return View(categoria);
+            return View(marca);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Upsert(Categoria categoria)
+        public IActionResult Upsert(Marca marca)
         {
             if (ModelState.IsValid)
             {
-                if (categoria.Id == 0)
+                if (marca.Id == 0)
                 {
-                    _unidadTrabajo.Categoria.Agregar(categoria);
+                    _unidadTrabajo.Marca.Agregar(marca);
                 }
                 else
                 {
-                    _unidadTrabajo.Categoria.Actualizar(categoria);
+                    _unidadTrabajo.Marca.Actualizar(marca);
                 }
 
                 _unidadTrabajo.Guardar();
                 return RedirectToAction(nameof(Index));
             }
 
-            return View(categoria);
+            return View(marca);
         }
 
         #region API
         [HttpGet]
         public IActionResult ObternerTodos()
         {
-            var todos = _unidadTrabajo.Categoria.ObtenerTodos();
+            var todos = _unidadTrabajo.Marca.ObtenerTodos();
             return Json(new { data = todos });
         }
 
         [HttpDelete]
         public IActionResult Delete(int id)
         {
-            var categoriaDb = _unidadTrabajo.Categoria.Obtener(id);
+            var marcaDb = _unidadTrabajo.Marca.Obtener(id);
 
-            if (categoriaDb == null)
+            if (marcaDb == null)
             {
-                return Json(new { success = false, message = "Error, no se encontro la Categoria." });
+                return Json(new { success = false, message = "Error, no se encontro la Marca." });
             }
-            _unidadTrabajo.Categoria.Eliminar(categoriaDb.Id);
+            _unidadTrabajo.Marca.Eliminar(marcaDb.Id);
             _unidadTrabajo.Guardar();
-            return Json(new { success = true, message = "Categoria borrada exitosamente" });
+            return Json(new { success = true, message = "Marca borrada exitosamente" });
         }
         #endregion
     }

@@ -1,10 +1,7 @@
 ﻿using SistemaInventario.AccesoDatos.Data;
 using SistemaInventario.AccesoDatos.Repositorio.IRepositorio;
 using SistemaInventario.Modelos;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace SistemaInventario.AccesoDatos.Repositorio
 {
@@ -20,7 +17,7 @@ namespace SistemaInventario.AccesoDatos.Repositorio
         public void Actualizar(Categoria categoria)
         {
             var categoriaDb = _db.Categorias.FirstOrDefault(resultado => resultado.Id == categoria.Id);
-            if(categoriaDb != null)
+            if (categoriaDb != null)
             {
                 categoriaDb.Nombre = categoria.Nombre;
                 categoriaDb.Estado = categoria.Estado;

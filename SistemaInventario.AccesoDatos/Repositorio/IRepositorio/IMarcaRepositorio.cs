@@ -2,8 +2,8 @@
 
 namespace SistemaInventario.AccesoDatos.Repositorio.IRepositorio
 {
-    public interface ICategoriaRepositorio : IRepositorio<Categoria>
+    public interface IMarcaRepositorio : IRepositorio<Marca>
     {
-        void Actualizar(Categoria categoria);
+        void Actualizar(Marca marca);
     }
 }

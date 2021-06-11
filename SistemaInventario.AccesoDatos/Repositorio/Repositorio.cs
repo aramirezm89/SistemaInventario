@@ -1,24 +1,28 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using SistemaInventario.AccesoDatos.Data;
 using SistemaInventario.AccesoDatos.Repositorio.IRepositorio;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-
 namespace SistemaInventario.AccesoDatos.Repositorio
 {
     public class Repositorio<T> : IRepositorio<T> where T : class
     {
 
         private readonly ApplicationDbContext _db;
+        private readonly string _conexion;
         internal DbSet<T> dbSet;
 
         public Repositorio(ApplicationDbContext db)
         {
+
             _db = db;
             this.dbSet = _db.Set<T>();
         }
+
+     
         public void Agregar(T entidad)
         {
             dbSet.Add(entidad); // insert into table
