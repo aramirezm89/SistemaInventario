@@ -1,6 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using SistemaInventario.AccesoDatos.Repositorio.IRepositorio;
+using SistemaInventario.Modelos;
 using SistemaInventario.Modelos.ViewModels;
+using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 
 namespace SistemaInventario.Areas.Inventario.Controllers
@@ -9,15 +13,17 @@ namespace SistemaInventario.Areas.Inventario.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly IUnidadTrabajo _unidadTrabajo;
+        public HomeController(ILogger<HomeController> logger, IUnidadTrabajo unidadTrabajo)
         {
             _logger = logger;
+            _unidadTrabajo = unidadTrabajo;
         }
 
         public IActionResult Index()
         {
-            return View();
+            IEnumerable<Producto> productoLista = _unidadTrabajo.Producto.ObtenerTodos(incluirPropiedades: "Categoria,Marca");
+            return View(productoLista);
         }
 
         public IActionResult Privacy()

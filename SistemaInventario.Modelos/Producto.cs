@@ -22,12 +22,12 @@ namespace SistemaInventario.Modelos
         public string Descripcion { get; set; }
 
         [Required]
-        [Range(1,10000)]
+        [Range(1,9999999)]
         [Display(Name ="Precio")]
         public double Precio { get; set; }
 
         [Required]
-        [Range(1,1000)]
+        [Range(1,9999999)]
         [Display(Name ="Costo")]
         public double Costo { get; set; }
 

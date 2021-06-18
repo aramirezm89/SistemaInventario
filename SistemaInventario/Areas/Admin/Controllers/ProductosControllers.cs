@@ -6,6 +6,7 @@ using SistemaInventario.Modelos;
 using SistemaInventario.Modelos.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,7 +17,7 @@ namespace SistemaInventario.Areas.Admin.Controllers
     public class ProductosController : Controller
     {
         private readonly IUnidadTrabajo _unidadTrabajo;
-        private readonly IWebHostEnvironment _hostEnviroment;
+        private readonly IWebHostEnvironment _hostEnviroment; //variable para carga de imagen
 
         public ProductosController(IUnidadTrabajo unidadTrabajo , IWebHostEnvironment hostEnviroment)
         {
@@ -33,17 +34,22 @@ namespace SistemaInventario.Areas.Admin.Controllers
             ProductoVM productoVM = new ProductoVM() {
 
                 Producto = new Producto(),
-                CategoriaLista = _unidadTrabajo.Categoria.ObtenerTodos().Select(elemento => new SelectListItem 
+                CategoriaLista = _unidadTrabajo.Categoria.ObtenerTodos().Select(categoria => new SelectListItem
                 {
-                    Text = elemento.Nombre,
-                    Value = elemento.Id.ToString()
+                    Text = categoria.Nombre,
+                    Value = categoria.Id.ToString()
 
                 }),
-                MarcaLista = _unidadTrabajo.Marca.ObtenerTodos().Select(Elemento => new SelectListItem
+                MarcaLista = _unidadTrabajo.Marca.ObtenerTodos().Select(marca => new SelectListItem
                 {
-                    Text = Elemento.Nombre,
-                    Value = Elemento.Id.ToString()
-                })
+                    Text = marca.Nombre,
+                    Value = marca.Id.ToString()
+                }),
+                PadreLista = _unidadTrabajo.Producto.ObtenerTodos().Select(producto => new SelectListItem
+                {
+                    Text = producto.Descripcion,
+                    Value = producto.Id.ToString()
+                }) 
             };
 
             if (id == null)
@@ -62,24 +68,91 @@ namespace SistemaInventario.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Upsert(Producto producto)
+        public IActionResult Upsert(ProductoVM productoVM)
         {
             if (ModelState.IsValid)
             {
-                if (producto.Id == 0)
+
+                //Cargar Imagenes
+
+                string webRootPath = _hostEnviroment.WebRootPath;
+                var files = HttpContext.Request.Form.Files;
+
+                if(files.Count > 0)
                 {
-                    _unidadTrabajo.Producto.Agregar(producto);
+                    string filename = Guid.NewGuid().ToString();
+                    var uploads = Path.Combine(webRootPath, @"imagenes\productos");
+                    var extension = Path.GetExtension(files[0].FileName);
+                    
+                    if(productoVM.Producto.ImagenUrl != null)
+                    {
+                        //Esto es para editar, necesitamos borrar la imagen anterior.
+                        var imagenPath = Path.Combine(webRootPath, productoVM.Producto.ImagenUrl.TrimStart('\\'));
+                        if (System.IO.File.Exists(imagenPath))
+                        {
+                            System.IO.File.Delete(imagenPath);
+                        }
+                    }
+
+                    using (var fileStreams = new FileStream(Path.Combine(uploads, filename + extension), FileMode.Create))
+                    {
+                        files[0].CopyTo(fileStreams);
+                    }
+
+                    productoVM.Producto.ImagenUrl = @"\imagenes\productos\" + filename + extension;
                 }
                 else
                 {
-                    _unidadTrabajo.Producto.Actualizar(producto);
+                    // Update sin cambio de imagen por parte del usuario
+
+                    if (productoVM.Producto.Id != 0)
+                    {
+                        Producto productoDb = _unidadTrabajo.Producto.Obtener(productoVM.Producto.Id);
+                        productoVM.Producto.ImagenUrl = productoDb.ImagenUrl;
+                    }
+                }
+
+
+                if (productoVM.Producto.Id == 0)
+                {
+                    _unidadTrabajo.Producto.Agregar(productoVM.Producto);
+                }
+                else
+                {
+                    _unidadTrabajo.Producto.Actualizar(productoVM.Producto);
                 }
 
                 _unidadTrabajo.Guardar();
                 return RedirectToAction(nameof(Index));
             }
+            else
+            {
+                productoVM.CategoriaLista = _unidadTrabajo.Categoria.ObtenerTodos().Select(categoria => new SelectListItem
+                {
+                    Text = categoria.Nombre,
+                    Value = categoria.Id.ToString()
 
-            return View(producto);
+                });
+                productoVM.MarcaLista = _unidadTrabajo.Marca.ObtenerTodos().Select(marca => new SelectListItem
+                {
+                    Text = marca.Nombre,
+                    Value = marca.Id.ToString()
+                });
+
+                productoVM.PadreLista = _unidadTrabajo.Producto.ObtenerTodos().Select(producto => new SelectListItem
+                {
+                    Text = producto.Descripcion,
+                    Value = producto.Id.ToString()
+
+                }); ;
+
+                if(productoVM.Producto.Id != 0)
+                {
+                    productoVM.Producto = _unidadTrabajo.Producto.Obtener(productoVM.Producto.Id);
+                }
+            }
+
+            return View(productoVM.Producto);
         }
 
         #region API
@@ -99,6 +172,15 @@ namespace SistemaInventario.Areas.Admin.Controllers
             {
                 return Json(new { success = false, message = "Error, no se encontro el Producto." });
             }
+
+            //eliminar imagen
+            string webRootPath = _hostEnviroment.WebRootPath;
+            var imagenPath = Path.Combine(webRootPath, productoDb.ImagenUrl.TrimStart('\\'));
+            if (System.IO.File.Exists(imagenPath))
+            {
+                System.IO.File.Delete(imagenPath);
+            }
+
             _unidadTrabajo.Producto.Eliminar(productoDb.Id);
             _unidadTrabajo.Guardar();
             return Json(new { success = true, message = "Producto borrado exitosamente" });
