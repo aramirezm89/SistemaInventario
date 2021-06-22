@@ -2,7 +2,7 @@
 
 $(document).ready(function () {
     var l = $.ajax( {
-        "url": "/Admin/Categorias/ObternerTodos"
+        "url": "/Admin/Categorias/ObtenerTodos"
     })
     console.log(l); //probando metodo ObtenerTodos
 
@@ -17,7 +17,7 @@ function loadDataTable() {
    
     datatable = $('#tblDatos').DataTable({
         "ajax": {
-            "url": "/Admin/Categorias/ObternerTodos"
+            "url": "/Admin/Categorias/ObtenerTodos"
         },
         "language": {
             "url": "//cdn.datatables.net/plug-ins/1.10.16/i18n/Spanish.json"

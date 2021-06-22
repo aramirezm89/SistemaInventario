@@ -9,7 +9,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css" />
-
+   
+ 
 
 </head>
 <body>
@@ -37,6 +38,16 @@
                                 <li><a class="dropdown-item" asp-area="Admin" asp-controller="Categorias" asp-action="Index">Categorias</a></li>
                                 <li><a class="dropdown-item" asp-area="Admin" asp-controller="Marcas" asp-action="Index">Marcas</a></li>
                                 <li><a class="dropdown-item" asp-area="Admin" asp-controller="Productos" asp-action="Index">Productos</a></li>
+                            </ul>
+
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true">
+                                Usuarios
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" asp-area="Admin" asp-controller="Usuarios" asp-action="Index">Usuarios</a></li>
                             </ul>
 
                         </li>

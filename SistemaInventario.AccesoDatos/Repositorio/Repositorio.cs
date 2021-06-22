@@ -12,7 +12,6 @@ namespace SistemaInventario.AccesoDatos.Repositorio
     {
 
         private readonly ApplicationDbContext _db;
-        private readonly string _conexion;
         internal DbSet<T> dbSet;
 
         public Repositorio(ApplicationDbContext db)

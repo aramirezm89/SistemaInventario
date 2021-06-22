@@ -22,7 +22,7 @@ namespace SistemaInventario.Modelos
         public string Pais { get; set; }
 
         [NotMapped]
-        public string Rol { get; set; }
+        public string Role { get; set; }
 
     }
 }

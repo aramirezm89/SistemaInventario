@@ -60,7 +60,7 @@ namespace SistemaInventario.Areas.Admin.Controllers
 
         #region API
         [HttpGet]
-        public IActionResult ObternerTodos()
+        public IActionResult ObtenerTodos()
         {
             var todos = _unidadTrabajo.Categoria.ObtenerTodos();
             return Json(new { data = todos });
