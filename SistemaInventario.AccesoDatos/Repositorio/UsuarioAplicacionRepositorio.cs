@@ -1,13 +1,10 @@
 ﻿using SistemaInventario.AccesoDatos.Data;
 using SistemaInventario.AccesoDatos.Repositorio.IRepositorio;
 using SistemaInventario.Modelos;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace SistemaInventario.AccesoDatos.Repositorio
 {
-    public class UsuarioAplicacionRepositorio : Repositorio<UsuaioAplicacion> , IUsuarioAplicacionRepositorio
+    public class UsuarioAplicacionRepositorio : Repositorio<UsuaioAplicacion>, IUsuarioAplicacionRepositorio
     {
 
         private readonly ApplicationDbContext _db;

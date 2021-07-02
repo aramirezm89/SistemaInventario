@@ -63,8 +63,8 @@ function BlockDesblock(id){
    
             $.ajax({
                 type : "POST",
-                url: "/Admin/Usuarios/BlockDesblock",
-                data: JSON.stringify(id),
+                url: `/Admin/Usuarios/BlockDesblock/${id}`,
+                //data: JSON.stringify(id),
                 contentType : "application/json",
                 success: function (data) {
                     if (data.success) {

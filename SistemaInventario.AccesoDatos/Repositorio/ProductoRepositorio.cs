@@ -1,9 +1,6 @@
 ﻿using SistemaInventario.AccesoDatos.Data;
 using SistemaInventario.AccesoDatos.Repositorio.IRepositorio;
 using SistemaInventario.Modelos;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 
 namespace SistemaInventario.AccesoDatos.Repositorio
@@ -11,12 +8,12 @@ namespace SistemaInventario.AccesoDatos.Repositorio
     public class ProductoRepositorio : Repositorio<Producto>, IProductoRepositorio
     {
         private readonly ApplicationDbContext _db;
-        public ProductoRepositorio(ApplicationDbContext db) : base (db)
+        public ProductoRepositorio(ApplicationDbContext db) : base(db)
         {
             _db = db;
 
         }
-       
+
         public void Actualizar(Producto producto)
         {
 

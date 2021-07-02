@@ -9,7 +9,7 @@ namespace SistemaInventario.AccesoDatos.Repositorio
     {
         private readonly ApplicationDbContext _db;
 
-      
+
 
         public BodegaRepositorio(ApplicationDbContext db) : base(db)
         {

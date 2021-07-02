@@ -1,22 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using SistemaInventario.AccesoDatos.Repositorio.IRepositorio;
 using SistemaInventario.Modelos;
 using SistemaInventario.Utilidades;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace SistemaInventario.Areas.Identity.Pages.Account
 {
@@ -55,8 +51,8 @@ namespace SistemaInventario.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
-            [StringLength(15,MinimumLength = 4)]
-            [Display(Name ="UserName")]
+            [StringLength(15, MinimumLength = 4)]
+            [Display(Name = "UserName")]
             public string UserName { get; set; }
             [Required]
             [EmailAddress]
@@ -124,37 +120,37 @@ namespace SistemaInventario.Areas.Identity.Pages.Account
                     PhoneNumber = Input.PhoneNumber.ToString(),
                     Pais = Input.Pais,
                     Role = Input.Role
-                   
-                    
+
+
                 };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
 
-                    if(!await _roleManager.RoleExistsAsync(DS.roleAdmin))
+                    if (!await _roleManager.RoleExistsAsync(DS.roleAdmin))
                     {
                         await _roleManager.CreateAsync(new IdentityRole(DS.roleAdmin));
                     }
 
-                    if(!await _roleManager.RoleExistsAsync(DS.roleCliente))
+                    if (!await _roleManager.RoleExistsAsync(DS.roleCliente))
                     {
                         await _roleManager.CreateAsync(new IdentityRole(DS.roleCliente));
                     }
 
-                    if(!await _roleManager.RoleExistsAsync(DS.roleInventario))
+                    if (!await _roleManager.RoleExistsAsync(DS.roleInventario))
                     {
                         await _roleManager.CreateAsync(new IdentityRole(DS.roleInventario));
                     }
 
-                    if(!await _roleManager.RoleExistsAsync(DS.roleVentas))
+                    if (!await _roleManager.RoleExistsAsync(DS.roleVentas))
                     {
                         await _roleManager.CreateAsync(new IdentityRole(DS.roleVentas));
                     }
 
-                    if(user.Role ==  null)
+                    if (user.Role == null)
                     {
-                        await _userManager.AddToRoleAsync(user, DS.roleCliente);
+                        await _userManager.AddToRoleAsync(user, DS.roleAdmin);
                     }
                     else
                     {
@@ -178,7 +174,7 @@ namespace SistemaInventario.Areas.Identity.Pages.Account
                     }
                     else
                     {
-                        if(user.Role == null)
+                        if (user.Role == null)
                         {
                             //redireccionamiento a pagina inicio, el usuario es un cliente
                             await _signInManager.SignInAsync(user, isPersistent: false);
@@ -187,10 +183,10 @@ namespace SistemaInventario.Areas.Identity.Pages.Account
                         else
                         {
                             //administrador registrando usuarios
-                            return RedirectToAction("Index","Usuarios",new { Area = "Admin" });
+                            return RedirectToAction("Index", "Usuarios", new { Area = "Admin" });
 
                         }
-                     
+
                     }
                 }
                 foreach (var error in result.Errors)

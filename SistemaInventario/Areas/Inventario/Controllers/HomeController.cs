@@ -3,7 +3,6 @@ using Microsoft.Extensions.Logging;
 using SistemaInventario.AccesoDatos.Repositorio.IRepositorio;
 using SistemaInventario.Modelos;
 using SistemaInventario.Modelos.ViewModels;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 

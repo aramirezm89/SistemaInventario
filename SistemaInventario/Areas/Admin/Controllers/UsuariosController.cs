@@ -1,14 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SistemaInventario.AccesoDatos.Data;
-using SistemaInventario.AccesoDatos.Repositorio.IRepositorio;
+using SistemaInventario.Utilidades;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace SistemaInventario.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = DS.roleAdmin)]
     public class UsuariosController : Controller
     {
         private readonly ApplicationDbContext _db;
@@ -23,8 +23,8 @@ namespace SistemaInventario.Areas.Admin.Controllers
         }
 
         #region API
-          [HttpGet]
-          public IActionResult ObtenerTodos()
+        [HttpGet]
+        public IActionResult ObtenerTodos()
         {
             var usuariosLista = _db.UsuarioAplicacion.ToList();
             var userRole = _db.UserRoles.ToList();
@@ -40,7 +40,7 @@ namespace SistemaInventario.Areas.Admin.Controllers
         }
 
         [HttpPost]
-        public IActionResult BlockDesblock([FromBody] string id)
+        public IActionResult BlockDesblock([FromRoute] string id)
         {
             var usuario = _db.UsuarioAplicacion.FirstOrDefault(u => u.Id == id);
 

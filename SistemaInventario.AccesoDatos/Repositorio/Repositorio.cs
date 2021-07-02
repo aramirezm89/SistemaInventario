@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using SistemaInventario.AccesoDatos.Data;
 using SistemaInventario.AccesoDatos.Repositorio.IRepositorio;
 using System;
@@ -21,7 +20,7 @@ namespace SistemaInventario.AccesoDatos.Repositorio
             this.dbSet = _db.Set<T>();
         }
 
-     
+
         public void Agregar(T entidad)
         {
             dbSet.Add(entidad); // insert into table

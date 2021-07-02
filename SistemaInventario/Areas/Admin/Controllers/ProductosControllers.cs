@@ -1,25 +1,26 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SistemaInventario.AccesoDatos.Repositorio.IRepositorio;
 using SistemaInventario.Modelos;
 using SistemaInventario.Modelos.ViewModels;
+using SistemaInventario.Utilidades;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace SistemaInventario.Areas.Admin.Controllers
 {
-    
+
     [Area("Admin")]
+    [Authorize(Roles = DS.roleAdmin + "," + DS.roleInventario)]
     public class ProductosController : Controller
     {
         private readonly IUnidadTrabajo _unidadTrabajo;
         private readonly IWebHostEnvironment _hostEnviroment; //variable para carga de imagen
 
-        public ProductosController(IUnidadTrabajo unidadTrabajo , IWebHostEnvironment hostEnviroment)
+        public ProductosController(IUnidadTrabajo unidadTrabajo, IWebHostEnvironment hostEnviroment)
         {
             _unidadTrabajo = unidadTrabajo;
             _hostEnviroment = hostEnviroment;
@@ -31,7 +32,8 @@ namespace SistemaInventario.Areas.Admin.Controllers
 
         public IActionResult Upsert(int? id)
         {
-            ProductoVM productoVM = new ProductoVM() {
+            ProductoVM productoVM = new ProductoVM()
+            {
 
                 Producto = new Producto(),
                 CategoriaLista = _unidadTrabajo.Categoria.ObtenerTodos().Select(categoria => new SelectListItem
@@ -49,7 +51,7 @@ namespace SistemaInventario.Areas.Admin.Controllers
                 {
                     Text = producto.Descripcion,
                     Value = producto.Id.ToString()
-                }) 
+                })
             };
 
             if (id == null)
@@ -78,13 +80,13 @@ namespace SistemaInventario.Areas.Admin.Controllers
                 string webRootPath = _hostEnviroment.WebRootPath;
                 var files = HttpContext.Request.Form.Files;
 
-                if(files.Count > 0)
+                if (files.Count > 0)
                 {
                     string filename = Guid.NewGuid().ToString();
                     var uploads = Path.Combine(webRootPath, @"imagenes\productos");
                     var extension = Path.GetExtension(files[0].FileName);
-                    
-                    if(productoVM.Producto.ImagenUrl != null)
+
+                    if (productoVM.Producto.ImagenUrl != null)
                     {
                         //Esto es para editar, necesitamos borrar la imagen anterior.
                         var imagenPath = Path.Combine(webRootPath, productoVM.Producto.ImagenUrl.TrimStart('\\'));
@@ -146,7 +148,7 @@ namespace SistemaInventario.Areas.Admin.Controllers
 
                 }); ;
 
-                if(productoVM.Producto.Id != 0)
+                if (productoVM.Producto.Id != 0)
                 {
                     productoVM.Producto = _unidadTrabajo.Producto.Obtener(productoVM.Producto.Id);
                 }
@@ -159,7 +161,7 @@ namespace SistemaInventario.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult ObternerTodos()
         {
-            var todos = _unidadTrabajo.Producto.ObtenerTodos(incluirPropiedades:"Categoria,Marca");
+            var todos = _unidadTrabajo.Producto.ObtenerTodos(incluirPropiedades: "Categoria,Marca");
             return Json(new { data = todos });
         }
 
@@ -186,6 +188,6 @@ namespace SistemaInventario.Areas.Admin.Controllers
             return Json(new { success = true, message = "Producto borrado exitosamente" });
         }
         #endregion
-    
+
     }
 }

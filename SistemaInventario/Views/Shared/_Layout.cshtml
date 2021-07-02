@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using SistemaInventario.Utilidades
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -28,29 +30,59 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
+                        @if (User.IsInRole(DS.roleAdmin) || User.IsInRole(DS.roleInventario))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true">
+                                    Contenido
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    @if (User.IsInRole(DS.roleAdmin))
+                                    {
+                                        <li><a class="dropdown-item" asp-area="Admin" asp-controller="Bodegas" asp-action="Index">Bodegas</a></li>
+                                        <li><a class="dropdown-item" asp-area="Admin" asp-controller="Categorias" asp-action="Index">Categorias</a></li>
+                                        <li><a class="dropdown-item" asp-area="Admin" asp-controller="Marcas" asp-action="Index">Marcas</a></li>
 
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true">
-                                Contenido
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" asp-area="Admin" asp-controller="Bodegas" asp-action="Index">Bodegas</a></li>
-                                <li><a class="dropdown-item" asp-area="Admin" asp-controller="Categorias" asp-action="Index">Categorias</a></li>
-                                <li><a class="dropdown-item" asp-area="Admin" asp-controller="Marcas" asp-action="Index">Marcas</a></li>
-                                <li><a class="dropdown-item" asp-area="Admin" asp-controller="Productos" asp-action="Index">Productos</a></li>
-                            </ul>
+                                    }
+                                    else
+                                    {
+                                        if (User.IsInRole(DS.roleAdmin) || User.IsInRole(DS.roleInventario))
+                                        {
+                                            <li><a class="dropdown-item" asp-area="Admin" asp-controller="Productos" asp-action="Index">Productos</a></li>
+                                        }
+                                    }
 
-                        </li>
+                                </ul>
 
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true">
-                                Usuarios
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" asp-area="Admin" asp-controller="Usuarios" asp-action="Index">Usuarios</a></li>
-                            </ul>
+                            </li>
 
-                        </li>
+                        }
+                        @if (User.IsInRole(DS.roleAdmin))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true">
+                                    Usuarios
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" asp-area="Admin" asp-controller="Usuarios" asp-action="Index">Usuarios</a></li>
+                                </ul>
+
+                            </li>
+                        }
+
+                        @if (User.IsInRole(DS.roleAdmin) || User.IsInRole(DS.roleInventario))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true">
+                                    Inventario
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" asp-area="Inventario" asp-controller="Inventario" asp-action="Index">Productos</a></li>
+                                </ul>
+
+                            </li>
+                        }
+
 
                     </ul>
 
@@ -78,7 +110,8 @@
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    <script src="https://kit.fontawesome.com/e19c476714.js"></script>
-     @RenderSection("Scripts", required: false)
+    @*<script src="https://kit.fontawesome.com/e19c476714.js"></script>*@
+    <script src="https://kit.fontawesome.com/8f4b77b5ec.js" crossorigin="anonymous"></script>
+    @RenderSection("Scripts", required: false)
 </body>
 </html>
