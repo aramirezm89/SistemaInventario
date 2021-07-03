@@ -26,5 +26,7 @@ namespace SistemaInventario.AccesoDatos.Data
         public DbSet<Inventario> Inventario { get; set; }
 
         public DbSet<InventarioDetalle> InventarioDetalle { get; set; }
+
+        public DbSet<Compañia> Compañia { get; set; }
     }
 }

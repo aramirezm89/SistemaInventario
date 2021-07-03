@@ -22,11 +22,13 @@ namespace SistemaInventario.Modelos
         [Required]
         [Range(1, 9999999)]
         [Display(Name = "Precio")]
+        [DisplayFormat(DataFormatString = "{0:C2}", ApplyFormatInEditMode = true)]
         public double Precio { get; set; }
 
         [Required]
         [Range(1, 9999999)]
         [Display(Name = "Costo")]
+        [DisplayFormat(DataFormatString = "{0:C2}", ApplyFormatInEditMode = true)]
         public double Costo { get; set; }
 
         public string ImagenUrl { get; set; }

@@ -52,8 +52,8 @@
     <table  class="table table-striped table-bordered pt-3">
         <thead>
             <tr class="table-info table-dark">
-                <th>Producto</th>
-                <th >Marca</th>
+                <th class="text-center">Producto</th>
+                <th  class="text-center">Marca</th>
                 <th class=" text-end">Costo</th>
                 <th class=" text-end">Stock</th>
                 <th class=" text-end">Cantidad</th>
@@ -115,7 +115,7 @@
             var cantidad = document.getElementById("cantidad").value;
 
             if (cantidad.toString() == '' || cantidad < 0) {
-                swal("Error", "Cantidad no puede ser menor a 0", "error")
+                swal("Error", "Cantidad no puede ser menor a 1", "error")
                 return false;
             }
         });

@@ -1,4 +1,5 @@
 ﻿var datatable;
+var datatableHistorial;
 
 $(document).ready(function () {
     var l = $.ajax( {
@@ -9,9 +10,9 @@ $(document).ready(function () {
 
 
     loadDataTable();
-  
-
 });
+
+
 
 function loadDataTable() {
    
@@ -25,7 +26,15 @@ function loadDataTable() {
         "columns": [
             { "data": "bodega.nombre", "width": "20%" },
             { "data": "producto.descripcion", "width": "30%" },
-            { "data": "producto.costo", "width": "10%", "classname": "text-end"},
+            {
+                "data": function ProductoCosto(data) {
+                    const formatterPeso = new Intl.NumberFormat('es-CO', {
+                        style: 'currency',
+                        currency: 'COP',
+                        minimumFractionDigits: 2
+                    })
+                    return formatterPeso.format(data.producto.costo)
+            }, "width": "10%", "classname": "text-end"},
             { "data": "cantidad", "width": "10%", "classname": "text-end"}
         ]
     });
