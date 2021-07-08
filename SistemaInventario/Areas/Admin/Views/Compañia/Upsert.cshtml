@@ -1,0 +1,141 @@
+﻿@model SistemaInventario.Modelos.ViewModels.CompañiaVM;
+@{
+    ViewData["Title"] = "Upsert";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var titulo = "Crear Producto";
+}
+
+<form method="post" enctype="multipart/form-data">
+    <div class="container">
+        <div class="row p-3 border-0">
+            <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+        </div>
+    </div>
+
+    @if (Model.Compañia.Id != 0)
+    {
+        //actualizar
+        titulo = "Actualizar Producto";
+        <input type="hidden" asp-for="Compañia.Id" />
+    }
+
+
+    <div class="col-12 border-bottom">
+        <h2 class="text-primary">@titulo</h2>
+    </div>
+    <div class="col-8 pt-4">
+        <div class="mb-3 row">
+            <div class="col-4">
+                <label class="form-label" asp-for="Compañia.Nombre"></label>
+            </div>
+            <div class="col-8">
+                <input asp-for="Compañia.Nombre" class="form-control" />
+                <span asp-validation-for="Compañia.Nombre" class="text-danger"></span>
+
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <div class="col-4">
+                <label class="form-label" asp-for="Compañia.Descripcion"></label>
+            </div>
+            <div class="col-8">
+                <input asp-for="Compañia.Descripcion" class="form-control" />
+                <span asp-validation-for="Compañia.Descripcion" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <div class="col-4">
+                <label class="form-label" asp-for="Compañia.Pais"></label>
+            </div>
+            <div class="col-8">
+                <input asp-for="Compañia.Pais" class="form-control" />
+                <span asp-validation-for="Compañia.Pais" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <div class="col-4">
+                <label class="form-label" asp-for="Compañia.Ciudad"></label>
+            </div>
+            <div class="col-8">
+                <input asp-for="Compañia.Ciudad" class="form-control" />
+                <span asp-validation-for="Compañia.Ciudad" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <div class="col-4">
+                <label class="form-label" asp-for="Compañia.Direccion"></label>
+            </div>
+            <div class="col-8">
+                <input asp-for="Compañia.Direccion" class="form-control" />
+                <span asp-validation-for="Compañia.Direccion" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <div class="col-4">
+                <label class="form-label" asp-for="Compañia.Telefono"></label>
+            </div>
+            <div class="col-8">
+                <input asp-for="Compañia.Telefono" class="form-control" />
+                <span asp-validation-for="Compañia.Telefono" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <div class="col-4">
+                Bodega Venta
+            </div>
+            <div class="col-8">
+                @Html.DropDownListFor(elemento => elemento.Compañia.BodegaVentaId, Model.BodegaLista, "Seleccione",
+                 new { @class = "form-control" }
+               )
+                <span asp-validation-for="Compañia.BodegaVentaId" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="mb-3 row">
+            <div class="col-4">
+                Logo
+            </div>
+            <div class="col-8">
+                <input type="file" name="files" id="logo" multiple class="form-control" />
+            </div>
+        </div>
+
+
+
+
+        <div class=" mb-3 row">
+            <div class="col-8 offset-4">
+                @if (Model.Compañia.Id != 0)
+                {
+
+
+                    <div class="col-6 mb-3">
+                        <img src="@Model.Compañia.logoUrl" style="width:100%;padding:5px; border-radius:5px; border:1px solid #808080; max-height:300px" />
+                    </div>
+
+                    <partial name="_BotonesActualizarRegresar" model="Model.Compañia.Id" />
+                }
+                else
+                {
+
+                    <div class="row">
+                        <div class="col">
+                            <button type="submit" class="btn btn-primary form-control" onclick="return validarEntrada()">Crear</button>
+                        </div>
+                        <div class="col">
+                            <a asp-action="Index" class="btn btn-success form-control">Regresar</a>
+                        </div>
+                    </div>
+
+                }
+            </div>
+        </div>
+    </div>
+</form>
+
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/js/producto.js"></script>
+}
+

@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\imagenes\compañia\" />
     <Folder Include="wwwroot\imagenes\productos\" />
   </ItemGroup>
 
