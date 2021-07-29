@@ -32,8 +32,12 @@ namespace SistemaInventario.Areas.Admin.Controllers
 
             foreach (var usuario in usuariosLista)
             {
-                var roleId = userRole.FirstOrDefault(u => u.UserId == usuario.Id).RoleId;
-                usuario.Role = roles.FirstOrDefault(r => r.Id == roleId).Name;
+               if(usuario.Role != null)
+                {
+                    var roleId = userRole.FirstOrDefault(u => u.UserId == usuario.Id).RoleId;
+                    usuario.Role = roles.FirstOrDefault(r => r.Id == roleId).Name;
+                }
+              
             }
 
             return Json(new { data = usuariosLista });

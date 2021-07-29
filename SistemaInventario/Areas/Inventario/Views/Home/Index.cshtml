@@ -13,7 +13,9 @@
                             <div class="ml-2">
                                 <p style="margin-left:2px">Precio: <b>$ @producto.Precio.ToString("N0")</b></p>
                             </div>
-
+                        </div>
+                        <div>
+                            <a asp-action="Detalle" class="btn btn-primary form-control" asp-route-id="@producto.Id">Detalle</a>
                         </div>
                     </div>
                 </div>

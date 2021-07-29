@@ -1,4 +1,6 @@
 ﻿@using SistemaInventario.Utilidades
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccesor
 
 <!DOCTYPE html>
 <html lang="en">
@@ -43,6 +45,7 @@
                                         <li><a class="dropdown-item" asp-area="Admin" asp-controller="Compañia" asp-action="Index">Compañia</a></li>
                                         <li><a class="dropdown-item" asp-area="Admin" asp-controller="Categorias" asp-action="Index">Categorias</a></li>
                                         <li><a class="dropdown-item" asp-area="Admin" asp-controller="Marcas" asp-action="Index">Marcas</a></li>
+                                        <li><a class="dropdown-item" asp-area="Admin" asp-controller="Productos" asp-action="Index">Productos</a></li>
                                     }
                                     else
                                     {
@@ -80,6 +83,27 @@
                                     <li><a class="dropdown-item" asp-area="Inventario" asp-controller="Inventario" asp-action="Index">Productos</a></li>
                                 </ul>
 
+                            </li>
+                        }
+                        @if (HttpContextAccesor.HttpContext.Session.GetInt32(DS.ssCarroCompras) != null)
+                        {
+                            <li style="color:white">
+                                <a asp-area="Inventario" asp-controller="Carro" asp-action="Index" class="nav-link">
+                                    @{
+                                        var cantidadProducto = HttpContextAccesor.HttpContext.Session.GetInt32(DS.ssCarroCompras);
+                                    }
+                                    <i class="fas fa-shopping-cart"></i> &nbsp; ( @cantidadProducto)
+                                </a>
+
+                            </li>
+
+                         }
+                        else
+                        {
+                            <li>
+                                <a href="#" class="nav-link">
+                                    <i class="fas fa-shopping-cart"></i> &nbsp; (0)
+                                </a>
                             </li>
                         }
 

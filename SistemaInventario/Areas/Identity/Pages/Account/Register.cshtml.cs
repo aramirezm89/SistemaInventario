@@ -150,7 +150,7 @@ namespace SistemaInventario.Areas.Identity.Pages.Account
 
                     if (user.Role == null)
                     {
-                        await _userManager.AddToRoleAsync(user, DS.roleAdmin);
+                        await _userManager.AddToRoleAsync(user, DS.roleCliente);
                     }
                     else
                     {

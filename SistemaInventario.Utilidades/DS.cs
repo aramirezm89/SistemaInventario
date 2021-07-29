@@ -6,5 +6,6 @@
         public const string roleAdmin = "Admin";
         public const string roleInventario = "Inventario";
         public const string roleVentas = "Ventas";
+        public const string ssCarroCompras = "Sesion Carro Compras";
     }
 }
