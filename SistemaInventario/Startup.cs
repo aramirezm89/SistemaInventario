@@ -10,6 +10,7 @@ using SistemaInventario.AccesoDatos.Data;
 using SistemaInventario.AccesoDatos.Repositorio;
 using SistemaInventario.AccesoDatos.Repositorio.IRepositorio;
 using SistemaInventario.Utilidades;
+using Stripe;
 using System;
 
 namespace SistemaInventario
@@ -32,6 +33,7 @@ namespace SistemaInventario
             services.AddIdentity<IdentityUser, IdentityRole>().AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddSingleton<IEmailSender, EmailSender>();
+            services.Configure<StripeSettings>(Configuration.GetSection("Stripe"));
             services.AddScoped<IUnidadTrabajo, UnidadTrabajo>();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();
@@ -72,6 +74,8 @@ namespace SistemaInventario
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            StripeConfiguration.ApiKey = Configuration.GetSection("Stripe")["SecretKey"];
 
             app.UseEndpoints(endpoints =>
             {
