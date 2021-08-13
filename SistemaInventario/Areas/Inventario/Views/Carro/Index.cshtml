@@ -32,18 +32,18 @@
                                     </div>
                                     <div class="col-6 col-sm-4 col-lg-6">
                                         <div class="float-right mx-1">
-                                            <button type="submit" asp-action="Mas" asp-route-id="@item.Id" class="btn btn-primary">
+                                            <button type="submit" asp-action="Mas" asp-route-carroId="@item.Id" asp-route-proId="@item.ProductoId" class="btn btn-primary">
                                                 <i class="fas fa-plus"></i>
                                             </button>
                                         </div>
                                         <div class="float-right mx-1">
-                                            <button type="submit" asp-action="Menos" asp-route-id="@item.Id" class="btn btn-danger">
+                                            <button type="submit" asp-action="Menos" asp-route-carroId="@item.Id" class="btn btn-danger">
                                                 <i class="fas fa-minus"></i>
                                             </button>
                                         </div>
                                     </div>
                                     <div class="col-2 col-sm-4 col-lg-2 text-right">
-                                        <button type="submit" asp-action="Remover" asp-route-id="@item.Id" class="btn btn-outline-danger">
+                                        <button type="submit" asp-action="Remover" asp-route-carroId="@item.Id" class="btn btn-outline-danger">
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </div>

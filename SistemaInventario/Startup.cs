@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Rotativa.AspNetCore;
 using SistemaInventario.AccesoDatos.Data;
 using SistemaInventario.AccesoDatos.Repositorio;
 using SistemaInventario.AccesoDatos.Repositorio.IRepositorio;
@@ -33,7 +34,7 @@ namespace SistemaInventario
             services.AddIdentity<IdentityUser, IdentityRole>().AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddSingleton<IEmailSender, EmailSender>();
-            services.Configure<StripeSettings>(Configuration.GetSection("Stripe"));
+            services.Configure<StripeSettings>(Configuration.GetSection("Stripe")); //configuracion stripe pagos
             services.AddScoped<IUnidadTrabajo, UnidadTrabajo>();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();
@@ -75,7 +76,7 @@ namespace SistemaInventario
             app.UseAuthentication();
             app.UseAuthorization();
 
-            StripeConfiguration.ApiKey = Configuration.GetSection("Stripe")["SecretKey"];
+            StripeConfiguration.ApiKey = Configuration.GetSection("Stripe")["SecretKey"]; //configuracion stripe pagos
 
             app.UseEndpoints(endpoints =>
             {
@@ -84,6 +85,7 @@ namespace SistemaInventario
                     pattern: "{area=Inventario}/{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+            RotativaConfiguration.Setup(env.WebRootPath, "..\\Rotativa\\Windows\\");
         }
     }
 }
