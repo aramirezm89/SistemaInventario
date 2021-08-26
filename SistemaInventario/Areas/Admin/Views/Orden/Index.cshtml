@@ -2,6 +2,32 @@
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var estado = Context.Request.Query["estado"];
+    var pendiente = "text-primary";
+    var aprobado = "text-primary";
+    var completado = "text-primary";
+    var rechazado = "text-primary";
+    var todas = "text-primary";
+    switch (estado)
+    {
+        case "pendiente":
+            pendiente = "active text-white";
+            break;
+        case "aprobado":
+            aprobado = "active text-white";
+            break;
+        case "completado":
+            completado = "active text-white";
+                break;
+        case "rechazado":
+            rechazado = "active text-white";
+            break;
+        case "todas":
+            todas = "active text-white";
+            break;
+        default:
+            break;
+    }
 }
 
 <br />
@@ -12,20 +38,20 @@
         </div>
         <div class="p-2">
             <ul class="list-group list-group-horizontal-sm">
-                <li class="list-group-item">
-                    <a style="text-decoration:none" asp-controller="Orden" asp-action="Index" asp-route-estado="pendiente">Pendientes</a>
+                <li class="list-group-item @pendiente">
+                    <a class=" @pendiente" style="text-decoration:none" asp-controller="Orden" asp-action="Index" asp-route-estado="pendiente">Pendientes</a>
                 </li>
-                <li class="list-group-item">
-                    <a style="text-decoration:none" asp-controller="Orden" asp-action="Index" asp-route-estado="aprobado">Aprobados</a>
+                <li class="list-group-item @aprobado">
+                    <a class="@aprobado" style="text-decoration:none" asp-controller="Orden" asp-action="Index" asp-route-estado="aprobado">Aprobados</a>
                 </li>
-                <li class="list-group-item">
-                    <a style="text-decoration:none" asp-controller="Orden" asp-action="Index" asp-route-estado="completado">Completados</a>
+                <li class="list-group-item @completado">
+                    <a class="@completado" style="text-decoration:none" asp-controller="Orden" asp-action="Index" asp-route-estado="completado">Completadas</a>
                 </li>
-                <li class="list-group-item">
-                    <a style="text-decoration:none" asp-controller="Orden" asp-action="Index" asp-route-estado="rechazado">Rechazados</a>
+                <li class="list-group-item @rechazado">
+                    <a class="@rechazado" style="text-decoration:none" asp-controller="Orden" asp-action="Index" asp-route-estado="rechazado">Rechazadas</a>
                 </li>
-                <li class="list-group-item">
-                    <a style="text-decoration:none" asp-controller="Orden" asp-action="Index" asp-route-estado="todas">Todas</a>
+                <li class="list-group-item @todas">
+                    <a class="@todas" style="text-decoration:none" asp-controller="Orden" asp-action="Index" asp-route-estado="todas">Todas</a>
                 </li>
             </ul>
         </div>

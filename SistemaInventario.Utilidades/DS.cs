@@ -12,6 +12,7 @@
         public const string EstadoAprobado = "Aprobado";
         public const string EstadoEnProceso = "Procesando";
         public const string EstadoEnviado = "Enviado";
+        public const string EstadoRechazado = "Rechazado";
         public const string EstadoCancelado = "Cancelado";
         public const string EstadoDevuelto = "Devuelto";
 
