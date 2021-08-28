@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using SistemaInventario.AccesoDatos.Repositorio.IRepositorio;
 using SistemaInventario.Modelos;
+using SistemaInventario.Modelos.ViewModels;
 using SistemaInventario.Utilidades;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,10 @@ namespace SistemaInventario.Areas.Admin.Controllers
     public class OrdenController : Controller
     {
         private readonly IUnidadTrabajo _unidadTrabajo;
+
+        [BindProperty]
+        public OrdenDetalleViewModel OrdenDetalleVM { get; set; }
+
         public OrdenController(IUnidadTrabajo unidadTrabajo)
         {
             _unidadTrabajo = unidadTrabajo;
@@ -23,6 +28,17 @@ namespace SistemaInventario.Areas.Admin.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+
+        public IActionResult Detalle(int id)
+        {
+            OrdenDetalleVM = new OrdenDetalleViewModel()
+            {
+                Orden = _unidadTrabajo.Orden.ObtenerPrimerElemento(o => o.Id == id, incluirPropiedades: "UsuaioAplicacion"),
+                OrdenDetalleLista = _unidadTrabajo.OrdenDetalle.ObtenerTodos(o => o.OrdenId == id, incluirPropiedades: "Producto")
+            };
+
+            return View(OrdenDetalleVM);
         }
 
         #region
