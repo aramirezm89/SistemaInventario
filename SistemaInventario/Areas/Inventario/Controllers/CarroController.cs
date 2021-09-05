@@ -188,7 +188,7 @@ namespace SistemaInventario.Areas.Inventario.Controllers
                 var options = new ChargeCreateOptions
                 {
                     Amount = Convert.ToInt32(CarroComprasVM.Orden.TotalOrden ),
-                    Currency = "usd",
+                    Currency = "clp",
                     Description = "Numero de Orden: " + CarroComprasVM.Orden.Id,
                     Source = stripeToken
                 };

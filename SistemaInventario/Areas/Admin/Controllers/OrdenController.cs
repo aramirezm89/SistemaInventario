@@ -4,6 +4,7 @@ using SistemaInventario.AccesoDatos.Repositorio.IRepositorio;
 using SistemaInventario.Modelos;
 using SistemaInventario.Modelos.ViewModels;
 using SistemaInventario.Utilidades;
+using Stripe;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,6 +42,55 @@ namespace SistemaInventario.Areas.Admin.Controllers
             return View(OrdenDetalleVM);
         }
 
+        [Authorize(Roles = DS.roleAdmin+","+DS.roleVentas)]
+        public IActionResult Procesar(int id)
+        {
+            Orden orden = _unidadTrabajo.Orden.ObtenerPrimerElemento(o => o.Id == id);
+            orden.EstadoOrden = DS.EstadoEnProceso;
+            _unidadTrabajo.Guardar();
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [Authorize(Roles = DS.roleAdmin + "," + DS.roleVentas)]
+        public IActionResult EnviarOrden()
+        {
+            Orden orden = _unidadTrabajo.Orden.ObtenerPrimerElemento(o => o.Id == OrdenDetalleVM.Orden.Id);
+            orden.NumeroEnvio = OrdenDetalleVM.Orden.NumeroEnvio;
+            orden.Courier = OrdenDetalleVM.Orden.Courier;
+            orden.EstadoOrden = DS.EstadoEnviado;
+            orden.FechaEnvio = DateTime.Now;
+            _unidadTrabajo.Guardar();
+            return RedirectToAction("Index");
+        }
+
+        [Authorize(Roles = DS.roleAdmin + "," + DS.roleVentas)]
+        public IActionResult CancelarOrden(int id)
+        {
+            Orden orden = _unidadTrabajo.Orden.ObtenerPrimerElemento(o => o.Id == id);
+
+            if(orden.EstadoPago  == DS.PagoEstadoAprobado)
+            {
+                var options = new RefundCreateOptions
+                {
+                    Amount = Convert.ToInt32(orden.TotalOrden),
+                    Reason = RefundReasons.RequestedByCustomer,
+                    Charge = orden.TransaccionId
+                };
+                var service = new RefundService();
+                Refund refund = service.Create(options);
+                orden.EstadoOrden = DS.EstadoDevuelto;
+                orden.EstadoPago = DS.EstadoDevuelto;
+            }
+            else
+            {
+                orden.EstadoOrden = DS.EstadoCancelado;
+                orden.EstadoPago = DS.EstadoCancelado;
+            }
+
+            _unidadTrabajo.Guardar();
+            return RedirectToAction("Index");
+        }
         #region
         [HttpGet]
         public IActionResult ObtenerOrdenLista(string estado)
